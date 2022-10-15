@@ -1,8 +1,9 @@
+const config = require("../utils/config")
+const logger = require("../utils/logger")
 const mongoose = require("mongoose");
-const url = process.env.MONGODB_URI
-console.log(url);
+logger.info(`Connecting To ${config.MONGODB_URI}`)
 
-mongoose.connect(url).then(res => {
+mongoose.connect(config.MONGODB_URI).then(res => {
     console.log("Connected to MongoDB");
 }).catch(err => {
     console.log("Connection Failed with : ", err.message);

@@ -188,3 +188,28 @@ Transform objects
 - dotenv
 Create a new .env file at the root to store mongoURI and port. Use dotenv module to populate the contents from .env file to make it available in process.env variable so that it can be used in the code
 
+ERROR HANDLING
+- We can define a MW for error handling. Express Error handlers are MW that accept 4 params. If any of the condition match, the error handler sends the response ELSE the MW passes the error forward to the default express error handler
+- const errorHandler = (err,req,res,next) => {
+    if(err.name == '...')
+        return res.status(400).json(...)
+    next(err)
+}
+- In any route -> app.HTTP_VERB(req,res,next) => {
+    something
+    .then()
+    .catch(error => next(error))
+}
+- The error parameter is passed inside the next function so that the execution can go to the error handler MW.
+But, if next was called without a parameter, the execution would move to the next route or middleware
+- NOTE: In any MW, if we use next() -> the control goes to the next MW/routeHandler. If we dont use next, it skips over the remaining Mw/routerhandlers and exits
+- The order of MW loading is the same as the order in which they are taken into use. Also, note that the error handling MW has to be the last MW that is loaded
+
+VALIDATION IN MONGOOSE
+- Its possible to set up validation rules like required, minLength while creating a new schema so that mongo would throw an error in the route handler if we try to violate the schema. And this error can be easily caught with the help of error handling MW
+- On updateOperation, validators are off by default. You have to turn them on
+
+Routers
+- A router object is like a mini application capable of performing only middleware and routings
+- Every express app has a built-in app router
+- Routers must only define the relative paths of routes. You can define the initial part of the URL to be matched in the app.js file
