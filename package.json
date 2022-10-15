@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy": "rm -rf build && cd ./app1/ && npm install && npm run build && cp -r build ../build",
+    "deploy": "npm install && rm -rf build && cd ./app1/ && npm install && npm run build && cp -r build ../build",
     "start-dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-prod": "node index.js"

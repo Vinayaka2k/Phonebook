@@ -82,15 +82,16 @@ app.get("/api/persons/:personId", async (request,response) => {
     }
 })
 
-app.delete("/api/persons/:personId", (request,response) => {
-    let personObj = persons.find(p => p.id === Number(request.params.personId));
+app.delete("/api/persons/:personId", async (request,response) => {
+    let personObj = await Person.findById(request.params.personId);
     if(personObj) {
-        persons = persons.filter(p => p.id !== personObj.id);
-        return response.status(200).json(personObj);
-    }else {
-        return response.status(200).json({
-            error: "Resource not found"
-        });
+        await Person.deleteOne({"_id": request.params.personId});
+        return response.status(204).json(personObj);
+    }
+    else {
+        return response.status(204).json({
+            error: "No Person exists with the given id"
+        })
     }
 })
 
