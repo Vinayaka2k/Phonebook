@@ -1,7 +1,8 @@
-const {v4: uuidv4} = require("uuid")
+require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 const app = express()
+const Person = require("./models/person")
 
 app.use(express.static('build'))
 app.use(cors())
@@ -65,13 +66,14 @@ let persons = [
       }
     ];
 
-app.get("/api/persons", (req,res) => {
-    res.json(persons);
+app.get("/api/persons", async (req,res) => {
+    let people = await Person.find({});
+    res.json(people);
 })
 
-app.get("/api/persons/:personId", (request,response) => {
-    let personObj = persons.filter(p => p.id === Number(request.params.personId));
-    if(personObj.length) {
+app.get("/api/persons/:personId", async (request,response) => {
+    let personObj = await Person.findById(request.params.personId);
+    if(personObj) {
         return response.status(200).json(personObj);
     }else {
         return response.status(404).json({
@@ -92,16 +94,14 @@ app.delete("/api/persons/:personId", (request,response) => {
     }
 })
 
-app.post("/api/persons", (request,response) => {
-    let personObj = {
-        ...request.body,
-        id: uuidv4()
-    }
-    persons = persons.concat(personObj);
+app.post("/api/persons", async (request,response) => {
+    const body = request.body;
+    const person = new Person(body);
+    let personObj = await person.save();
     return response.status(201).json(personObj);
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 })

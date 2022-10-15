@@ -157,3 +157,34 @@ MONGO - Document DB - NoSQL DB
 4. mongodb+srv://Vinayaka:vinayaka2000@cluster0.goed3nq.mongodb.net/mydb?retryWrites=true&w=majority
 5. mydb is the name of the database and collection Persons is created under that
 6. npm i mongoose
+
+MONGOOSE SCHEMA
+- schema tells us how the objects are stored in the db
+- const mySchema = new mongoose.Schema({
+    colName: dataType
+})
+
+Mongoose Model
+- const Model = mongoose.model('Name', mySchema)
+- Mongoose names the model as 'names'
+- Mongo is a schemaless DB -> the db doesnt care aboyt the structure of data stored -> its possible to store documents with completetly different fields in the same collection
+- Then what is the use of schema ? Basically, schema is defined on the level of the application that defines the shape of the documents stored in any collection
+- Models are constructor functions that create new objects. These objects have access to functions to save objects since they are created from Model Class
+
+Creating/Saving objects
+- Const newObj = new ModelName({
+    colNames: values
+})
+- await newObj.save()
+- mongoose.connection.close()
+
+Fetching objects
+- newObj.find({colName: value})
+
+Transform objects
+- Every object created by a mongoose schema has _id and __v. We can convert the _id to string and delete __v using toJSON method
+- If we define a transform toJSON method on personSchema, the toJSON method is called whenever JSON.stringify or res.json() is called
+
+- dotenv
+Create a new .env file at the root to store mongoURI and port. Use dotenv module to populate the contents from .env file to make it available in process.env variable so that it can be used in the code
+

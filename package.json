@@ -4,19 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:ui": "rm -rf build && cd ./app1/ && npm install && npm run build && cp -r build ../build",
-    "deploy": "npm run build:ui && node index.js",
+    "build": "rm -rf build && cd ./app1/ && npm install && npm run build && cp -r build ../build",
+    "start-dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start-prod": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.6.5",
-    "uuid": "^9.0.0"
+    "mongoose": "^6.6.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
